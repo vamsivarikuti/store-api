@@ -1,5 +1,5 @@
 import { plainToInstance } from 'class-transformer';
-import { IsEnum, IsString, validateSync } from 'class-validator';
+import { IsEnum, IsNumber, IsString, validateSync } from 'class-validator';
 
 enum Environment {
   Development = 'development',
@@ -7,12 +7,29 @@ enum Environment {
   Test = 'test',
 }
 
+export enum EnvVars {
+  NODE_ENV = 'NODE_ENV',
+  MONGO_URL = 'MONGO_URL',
+  DB_NAME = 'DB_NAME',
+  JWT_SECRET = 'JWT_SECRET',
+  ACCESS_TOKEN_VALIDITY_IN_SEC = 'ACCESS_TOKEN_VALIDITY_IN_SEC',
+}
+
 class EnvironmentVariables {
   @IsEnum(Environment)
-  NODE_ENV: Environment;
+  [EnvVars.NODE_ENV]: Environment;
 
   @IsString()
-  MONGO_URL: string;
+  [EnvVars.MONGO_URL]: string;
+
+  @IsString()
+  [EnvVars.DB_NAME]: string;
+
+  @IsString()
+  [EnvVars.JWT_SECRET]: string;
+
+  @IsNumber()
+  [EnvVars.ACCESS_TOKEN_VALIDITY_IN_SEC]: number;
 }
 
 export function validate(config: Record<string, unknown>) {
