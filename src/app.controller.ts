@@ -1,13 +1,13 @@
 import { Controller, Get, Req } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Request } from 'express';
-// import { SkipAuth } from './auth/decorators/public.decorator';
+import { SkipAuth } from './auth/decorators/public.decorator';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  // @SkipAuth()
+  @SkipAuth()
   @Get()
   getHello(@Req() req: Request): string {
     console.log(req);

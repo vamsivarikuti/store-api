@@ -7,10 +7,10 @@ import { APP_GUARD } from '@nestjs/core';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EnvVars } from '../util/env.validator';
 import { RefreshTokenStrategy } from './strategies/refreshToken.strategy';
+import { RefreshTokenGuard } from './guards/refreshToken.guard';
 
 @Module({
   imports: [
@@ -37,7 +37,7 @@ import { RefreshTokenStrategy } from './strategies/refreshToken.strategy';
     AuthService,
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard,
+      useClass: RefreshTokenGuard,
     },
     LocalStrategy,
     JwtStrategy,
