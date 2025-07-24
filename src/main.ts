@@ -4,9 +4,16 @@ import { type NestExpressApplication } from '@nestjs/platform-express';
 import helmet from 'helmet';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
+import { ConsoleLogger } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: new ConsoleLogger({
+      json: true,
+      colors: true,
+    }),
+  });
+  app.set('query parser', 'extended');
   app.use(helmet());
 
   app.use(cookieParser());
