@@ -5,12 +5,13 @@ import helmet from 'helmet';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import { ConsoleLogger } from '@nestjs/common';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: new ConsoleLogger({
-      json: true,
       colors: true,
+      compact: true,
     }),
   });
   app.set('query parser', 'extended');
@@ -18,6 +19,8 @@ async function bootstrap() {
 
   app.use(cookieParser());
   app.enableCors();
+
+  app.useGlobalInterceptors(new LoggingInterceptor());
 
   const config = new DocumentBuilder()
     .setTitle('Store API')
